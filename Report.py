@@ -78,7 +78,7 @@ try:
             url = f'https://www.kuaishou.com/profile/{uid}'
             print(url)
             driver.get(url)
-            #remove_completed_uid(uid)
+            remove_completed_uid(uid)
             with open(script_report, "r", encoding="utf-8") as file:
                 report = file.read()
             log = driver.execute_async_script(report)

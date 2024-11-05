@@ -172,7 +172,7 @@ function reportPhotos(ids, index, pcursor) {
     };
     reportXhr.ontimeout = function() {
         console.warn("请求超时，已跳过");
-        // 处理超时逻辑，比如重试或记录日志等
+        return
     };
     reportXhr.send(reportData);
 }

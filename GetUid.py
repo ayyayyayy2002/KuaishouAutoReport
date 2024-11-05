@@ -119,7 +119,7 @@ with open(output_file, 'r', encoding='utf-8') as f:
     lines = f.readlines()
     for line in lines:
         uid = line.strip()
-        if uid.isdigit():  # 假设 UID 是数字格式
+        if uid and uid[0].isdigit():  # 检查 uid 是否非空且首字符是否为数字
             unique_uids.add(uid)
 
 try:
@@ -154,7 +154,7 @@ with open(whitelist_filename, 'r', encoding='utf-8') as f:  # 处理 whitelist_f
     lines = f.readlines()
     for line in lines:
         uid = line.strip()
-        if uid.isdigit():  # 假设 UID 是数字格式
+        if uid and uid[0].isdigit():
             unique_uids.add(uid)
 
 
@@ -187,7 +187,6 @@ with open(blacklist_filename, 'r', encoding='utf-8') as exclude_file:
 print('从 unique_uids 中移除在 exclude_uids 中存在的 UID')
 unique_uids -= exclude_uids
 print('将唯一的 UID 列表按格式写入文件')
-
 with open(output_file, 'w', encoding='utf-8') as f:
     for uid in unique_uids:
         f.write(uid + '\n')
