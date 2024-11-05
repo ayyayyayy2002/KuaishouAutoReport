@@ -5,8 +5,8 @@ const timeout = 300
 
 let pcursor = '';
 
-
-
+let output = ''
+let lastoutput = ''
 
 
 
@@ -87,6 +87,7 @@ function fetchPhotos(pcursor) {
     xhr.withCredentials = true;
     xhr.open('POST', 'https://www.kuaishou.com/graphql');
 
+
     // 设置请求头
     setHeaders(xhr);
 
@@ -97,7 +98,7 @@ function fetchPhotos(pcursor) {
 
             if (feeds.length === 0) {
                 updateDiagnosticInfo('<strong style="font-size: 2em;color: blue;">本页全部举报完成</strong><br>');
-                callback(diagnosticInfo.innerHTML)
+                callback(output += lastoutput)
                 return;
             }
 
@@ -107,12 +108,12 @@ function fetchPhotos(pcursor) {
             reportPhotos(ids, 0, pcursor);
 
         } catch (error) {
-            console.error('解析返回值时出错:', error);
+            console.log('解析返回值时出错:', error);
         }
     };
 
     xhr.onerror = function() {
-        console.error('请求发生错误');
+        console.log('请求发生错误');
     };
 
     xhr.send(data);
@@ -147,17 +148,20 @@ function reportPhotos(ids, index, pcursor) {
     let reportXhr = new XMLHttpRequest();
     reportXhr.withCredentials = true;
     reportXhr.open('POST', 'https://www.kuaishou.com/graphql');
+    reportXhr.timeout = timeout;
 
     // 设置请求头
     setHeaders(reportXhr);
 
     reportXhr.onload = function() {
         const decodedResponse = JSON.parse(reportXhr.response); // 解码响应
-        console.error(reportCount,decodedResponse)
 
         // 使用 JSON.stringify() 将对象转化为字符串，以便正确显示
         updateDiagnosticInfo(`举报请求返回值：<strong>${JSON.stringify(decodedResponse, null, 2).replace(/</g, '&lt;').replace(/>/g, '&gt;')}</strong><br>`);
-
+        lastoutput = `${reportCount}, response: ${reportXhr.response}`
+        if (reportCount % 20 === 1) {
+            output += `${reportCount}, response: ${reportXhr.response}`;
+        }
         setTimeout(() => {
             reportPhotos(ids, index + 1, pcursor);
         }, timeout);
@@ -166,7 +170,10 @@ function reportPhotos(ids, index, pcursor) {
     reportXhr.onerror = function() {
         console.error('举报请求发生错误');
     };
-
+    reportXhr.ontimeout = function() {
+        console.warn("请求超时，已跳过");
+        // 处理超时逻辑，比如重试或记录日志等
+    };
     reportXhr.send(reportData);
 }
 

@@ -78,22 +78,21 @@ try:
             url = f'https://www.kuaishou.com/profile/{uid}'
             print(url)
             driver.get(url)
-
+            #remove_completed_uid(uid)
             with open(script_report, "r", encoding="utf-8") as file:
                 report = file.read()
-            driver.execute_async_script(report)
+            log = driver.execute_async_script(report)
             #logs = driver.get_log('browser')
-            #print(logs)
+            print(log)
             #warning_logs = [log for log in logs if log['level'] == 'SEVERE']
          #   for log in warning_logs:
          #       print(log['message'])
             continue  # 使用 continue 继续下一个 UID
 
-        except (requests.exceptions.HTTPError, requests.exceptions.RequestException) as e:
+        except Exception as e:
             print(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
             log_error(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
             sys.exit(f"UID循环内发生错误,错误UID：{uid}")
-    driver.quit()  # 完成所有操作后关闭浏览器
 
 
 except Exception as e:
