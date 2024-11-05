@@ -33,11 +33,6 @@ while True:
             print(error_message)
             log_error(error_message)  # 记录错误信息
 
-#    print('对UID进行过滤处理')
-    filteruid_process = subprocess.Popen([python_executable, filteruid_script], shell=True)
-#    filteruid_process.wait()
-
-
 
     while True:  # 死循环以重启 Report.py
         report_process = subprocess.Popen([python_executable, report_script], shell=True)
