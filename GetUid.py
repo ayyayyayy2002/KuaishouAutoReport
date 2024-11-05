@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.chrome.service import Service
 
 from selenium import webdriver
@@ -65,29 +67,9 @@ def load_local_keywords(filename):  # 定义从本地文件加载关键词的函
 
 
 def search_and_extract_uid(searchword):
-    uid_list = []
-    options = webdriver.ChromeOptions()
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument(f'--user-data-dir={user_data_dir}')  # 设置用户数据目录
-    options.binary_location = chrome_binary_path  # 指定 Chrome 浏览器的可执行文件路径
-    options.add_argument('--proxy-server="direct://"')
-    options.add_argument('--proxy-bypass-list=*')
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-sync")
-    options.add_argument("disable-cache")  # 禁用缓存
-    #options.add_argument("--headless")
-    options.add_argument('log-level=3')
-    service = Service(executable_path=chrome_driver_path)
-    driver = webdriver.Chrome(service=service, options=options)  # 启动 Chrome 浏览器
-    # driver.set_window_size(1000, 700)  # 设置浏览器窗口大小（宽度, 高度）
-    # driver.set_window_position(-850, 775)  # 设置浏览器窗口位置（x, y）
-    # driver.set_window_position(-850, 1355)
-    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-    url = f"https://www.kuaishou.com/"
-    driver.get(url)
     with open(script_search, "r", encoding="utf-8") as file:
         search = file.read()
-    uid_list = driver.execute_script(search, searchword)
+    uid_list = driver.execute_async_script(search, searchword)
     process_uid_list(keyword, uid_list)
 
 
@@ -106,15 +88,30 @@ def process_uid_list(keyword, uid_list):  # 定义处理UID列表的函数（追
 
 unique_uids = set()  # 使用集合存储唯一的 UID
 keywords = fetch_keywords()  # 使用fetch_keywords函数替代原有的keywords定义
+options = webdriver.ChromeOptions()
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument(f'--user-data-dir={user_data_dir}')  # 设置用户数据目录
+options.binary_location = chrome_binary_path  # 指定 Chrome 浏览器的可执行文件路径
+options.add_argument('--proxy-server="direct://"')
+options.add_argument('--proxy-bypass-list=*')
+options.add_argument("--disable-gpu")
+options.add_argument("--disable-sync")
+options.add_argument("disable-cache")  # 禁用缓存
+options.add_argument("--headless")
+options.add_argument('log-level=3')
+service = Service(executable_path=chrome_driver_path)
+driver = webdriver.Chrome(service=service, options=options)  # 启动 Chrome 浏览器
+# driver.set_window_size(1000, 700)  # 设置浏览器窗口大小（宽度, 高度）
+# driver.set_window_position(-850, 775)  # 设置浏览器窗口位置（x, y）
+# driver.set_window_position(-850, 1355)
+driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+url = f"https://www.kuaishou.com/"
+driver.get(url)
+
 
 for keyword in keywords:  # 遍历关键词列表，进行搜索和处理
     search_and_extract_uid(keyword)
 print('读取当前文件中所有的 UID，并添加到集合中去重')
-
-
-
-
-
 
 
 
