@@ -97,7 +97,7 @@ function fetchPhotos(pcursor) {
 
             if (feeds.length === 0) {
                 updateDiagnosticInfo('<strong style="font-size: 2em;color: blue;">本页全部举报完成</strong><br>');
-                callback()
+                callback(diagnosticInfo.innerHTML)
                 return;
             }
 
@@ -153,7 +153,7 @@ function reportPhotos(ids, index, pcursor) {
 
     reportXhr.onload = function() {
         const decodedResponse = JSON.parse(reportXhr.response); // 解码响应
-        console.error(reportCount,JSON.stringify(decodedResponse, null, 2).replace(/</g, '&lt;').replace(/>/g, '&gt;'))
+        console.error(reportCount,decodedResponse)
 
         // 使用 JSON.stringify() 将对象转化为字符串，以便正确显示
         updateDiagnosticInfo(`举报请求返回值：<strong>${JSON.stringify(decodedResponse, null, 2).replace(/</g, '&lt;').replace(/>/g, '&gt;')}</strong><br>`);

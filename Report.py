@@ -78,15 +78,15 @@ try:
             url = f'https://www.kuaishou.com/profile/{uid}'
             print(url)
             driver.get(url)
+
             with open(script_report, "r", encoding="utf-8") as file:
                 report = file.read()
             driver.execute_async_script(report)
-            logs = driver.get_log('browser')
-            print(logs)
-            warning_logs = [log for log in logs if log['level'] == 'SEVERE']
-            for log in warning_logs:
-                print(log['message'])
-            remove_completed_uid(uid)
+            #logs = driver.get_log('browser')
+            #print(logs)
+            #warning_logs = [log for log in logs if log['level'] == 'SEVERE']
+         #   for log in warning_logs:
+         #       print(log['message'])
             continue  # 使用 continue 继续下一个 UID
 
         except (requests.exceptions.HTTPError, requests.exceptions.RequestException) as e:
@@ -104,4 +104,4 @@ except Exception as e:
 
 finally:
     driver.quit()
-    exit(0)
+    exit('hsfghsgh')
