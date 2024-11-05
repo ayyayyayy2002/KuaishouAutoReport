@@ -1,12 +1,12 @@
 var callback = arguments[arguments.length - 1];
 const pathParts = window.location.pathname.split('/');
 const userId = pathParts[2]; // 提取路径中的第二部分作为 userId
-const timeout = 300
-
+const delay = 300
+const timeout = 3000
 let pcursor = '';
 
 let output = ''
-let lastoutput = ''
+let lastoutput = '默认请求输出'
 
 
 
@@ -164,15 +164,14 @@ function reportPhotos(ids, index, pcursor) {
         }
         setTimeout(() => {
             reportPhotos(ids, index + 1, pcursor);
-        }, timeout);
+        }, delay);
     };
 
     reportXhr.onerror = function() {
         console.error('举报请求发生错误');
     };
     reportXhr.ontimeout = function() {
-        console.warn("请求超时，已跳过");
-        return
+        callback(output += lastoutput, '请求超时');
     };
     reportXhr.send(reportData);
 }

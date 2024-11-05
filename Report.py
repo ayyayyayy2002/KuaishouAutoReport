@@ -82,13 +82,8 @@ try:
             with open(script_report, "r", encoding="utf-8") as file:
                 report = file.read()
             log = driver.execute_async_script(report)
-            #logs = driver.get_log('browser')
             print(log)
-            #warning_logs = [log for log in logs if log['level'] == 'SEVERE']
-         #   for log in warning_logs:
-         #       print(log['message'])
             continue  # 使用 continue 继续下一个 UID
-
         except Exception as e:
             print(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
             log_error(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
