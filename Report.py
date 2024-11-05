@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from datetime import datetime
@@ -86,6 +88,7 @@ try:
             continue  # 使用 continue 继续下一个 UID
         except Exception as e:
             print(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
+            time.sleep(200000)
             log_error(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
             sys.exit(f"UID循环内发生错误,错误UID：{uid}")
 
