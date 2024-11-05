@@ -1,4 +1,5 @@
 # 默认忽略的文件
-/shelf/
-/workspace.xml
-/.idea
+/.idea/
+/附加文件/chrome-win/
+/附加文件/User Data/
+/附加文件/运行记录/
