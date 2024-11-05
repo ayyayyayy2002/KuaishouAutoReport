@@ -1,12 +1,21 @@
 var callback = arguments[arguments.length - 1];
 const pathParts = window.location.pathname.split('/');
 const userId = pathParts[2]; // 提取路径中的第二部分作为 userId
-const delay = 350
+const delay = 30
 const timeout = 3000
 let pcursor = '';
 
 let output = ''
 let lastoutput = '默认请求输出'
+
+
+
+
+
+
+
+
+
 
 
 
@@ -53,7 +62,7 @@ function FollowUser(){
 
     let followxhr = new XMLHttpRequest();
     followxhr.withCredentials = true;
-    followxhr.open('POST', 'https://www.kuaishou.com/graphql');
+    followxhr.open('POST', 'https://www.kuaishou.cn/graphql');
     followxhr.setRequestHeader('Accept-Language', 'zh-CN,zh;q=0.9');
     followxhr.setRequestHeader('accept', '*/*');
     followxhr.setRequestHeader('content-type', 'application/json');
@@ -85,7 +94,7 @@ function fetchPhotos(pcursor) {
 
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
-    xhr.open('POST', 'https://www.kuaishou.com/graphql');
+    xhr.open('POST', 'https://www.kuaishou.cn/graphql');
 
 
     // 设置请求头
@@ -137,7 +146,7 @@ function reportPhotos(ids, index, pcursor) {
             'targetId': photoId,
             'reportType': 1,
             'page': 'DETAIL',
-            'reportItem': 3,
+            'reportItem': 2,
             'reportDetail': '色情游戏及色情视频剪辑内容', // 举报详情
             'reportedUserId': userId,
             'extraPhotoId': ''
@@ -147,7 +156,7 @@ function reportPhotos(ids, index, pcursor) {
 
     let reportXhr = new XMLHttpRequest();
     reportXhr.withCredentials = true;
-    reportXhr.open('POST', 'https://www.kuaishou.com/graphql');
+    reportXhr.open('POST', 'https://www.kuaishou.cn/graphql');
     reportXhr.timeout = timeout;
 
     // 设置请求头
@@ -161,6 +170,9 @@ function reportPhotos(ids, index, pcursor) {
         lastoutput = `${reportCount}, response: ${reportXhr.response}`
         if (reportCount % 20 === 1) {
             output += `${reportCount}, response: ${reportXhr.response}`;
+        }
+        if (reportCount  === 80) {
+            callback(output += lastoutput);;
         }
         setTimeout(() => {
             reportPhotos(ids, index + 1, pcursor);

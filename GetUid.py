@@ -1,3 +1,4 @@
+import logging
 import time
 
 from selenium.webdriver.chrome.service import Service
@@ -95,9 +96,17 @@ options.binary_location = chrome_binary_path  # 指定 Chrome 浏览器的可执
 options.add_argument('--proxy-server="direct://"')
 options.add_argument('--proxy-bypass-list=*')
 options.add_argument("--disable-gpu")
+options.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁用日志
+
+preferences = {
+    "webrtc.ip_handling_policy": "disable_non_proxied_udp",
+    "webrtc.multiple_routes_enabled": False,
+    "webrtc.nonproxied_udp_enabled": False
+}
+options.add_experimental_option("prefs", preferences)
 options.add_argument("--disable-sync")
 options.add_argument("disable-cache")  # 禁用缓存
-options.add_argument("--headless")
+#options.add_argument("--headless")
 options.add_argument('log-level=3')
 service = Service(executable_path=chrome_driver_path)
 driver = webdriver.Chrome(service=service, options=options)  # 启动 Chrome 浏览器
@@ -184,9 +193,7 @@ with open(blacklist_filename, 'r', encoding='utf-8') as exclude_file:
         exclude_uid = line.strip()
         if exclude_uid.isdigit():  # 假设 UID 是数字格式
             exclude_uids.add(exclude_uid)
-print('从 unique_uids 中移除在 exclude_uids 中存在的 UID')
 unique_uids -= exclude_uids
-print('将唯一的 UID 列表按格式写入文件')
 with open(output_file, 'w', encoding='utf-8') as f:
     for uid in unique_uids:
         f.write(uid + '\n')

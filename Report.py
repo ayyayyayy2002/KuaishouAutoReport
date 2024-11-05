@@ -3,7 +3,6 @@ import time
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from datetime import datetime
-import requests
 import sys
 import os
 
@@ -65,19 +64,18 @@ options.add_argument("--disable-gpu")
 options.add_argument("--disable-sync")
 options.add_argument("disable-cache")#禁用缓存
 #options.add_argument("--headless")
-options.add_argument('log-level=3')
 service = Service(executable_path=chrome_driver_path)
 driver = webdriver.Chrome(service=service, options=options)  # 启动 Chrome 浏览器
 driver.set_window_size(1000, 700)  # 设置浏览器窗口大小（宽度, 高度）
-#driver.set_window_position(-850, 775)  # 设置浏览器窗口位置（x, y）
-driver.set_window_position(-850, 1355)
+driver.set_window_position(-850, 775)  # 设置浏览器窗口位置（x, y）
+#driver.set_window_position(-850, 1355)
 driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
 try:
     for uid in uids:
 
         try:
-            url = f'https://www.kuaishou.com/profile/{uid}'
+            url = f'https://www.kuaishou.cn/profile/{uid}'
             print(url)
             driver.get(url)
             remove_completed_uid(uid)
@@ -88,7 +86,6 @@ try:
             continue  # 使用 continue 继续下一个 UID
         except Exception as e:
             print(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
-            time.sleep(200000)
             log_error(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
             sys.exit(f"UID循环内发生错误,错误UID：{uid}")
 
