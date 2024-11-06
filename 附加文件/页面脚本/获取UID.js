@@ -28,7 +28,7 @@ function makeRequest(keyword, pcursor) {
         });
 
         // 检查是否获取到最后一页
-        if (pcursor === '2') {
+        if (pcursor === '1') {
             console.warn(ids)
             callback(ids); // 将结果作为返回值
         } else {
