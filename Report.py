@@ -1,4 +1,5 @@
 import time
+import traceback
 
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
@@ -85,9 +86,11 @@ try:
             print(log)
             continue  # 使用 continue 继续下一个 UID
         except Exception as e:
-            print(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
-            log_error(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
-            sys.exit(f"UID循环内发生错误,错误UID：{uid}")
+            error_msg = f"UID循环内发生错误,错误UID：{uid}，错误: {e}"
+            print(error_msg)
+            traceback.print_exc()  # 打印详细的堆栈跟踪信息
+            # log_error(error_msg)
+            sys.exit(error_msg)
 
 
 except Exception as e:

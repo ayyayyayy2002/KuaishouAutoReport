@@ -171,7 +171,7 @@ function reportPhotos(ids, index, pcursor) {
         if (reportCount % 10 === 1) {
             output += `${reportCount}, response: ${reportXhr.response}`;
         }
-        if (reportCount  === 75) {
+        if (reportCount  === 750) {
             callback(output += lastoutput);;
         }
         setTimeout(() => {
