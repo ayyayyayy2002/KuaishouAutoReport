@@ -78,6 +78,7 @@ try:
 
         try:
             url = f'https://www.kuaishou.com/profile/{uid}'
+            print('\n')
             print(url)
             driver.get(url)
             remove_completed_uid(uid)
