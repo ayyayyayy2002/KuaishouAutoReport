@@ -1,6 +1,6 @@
 import time
-import traceback
 
+from selenium.common import TimeoutException
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from datetime import datetime
@@ -55,7 +55,7 @@ if not uids:
     exit(0)
 
 options = webdriver.ChromeOptions()
-options.timeouts = { 'script': 500000 }
+options.timeouts = { 'script': 120000 }
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument(f'--user-data-dir={user_data_dir}')  # 设置用户数据目录
 options.binary_location = chrome_binary_path  # 指定 Chrome 浏览器的可执行文件路径
@@ -85,12 +85,10 @@ try:
             log = driver.execute_async_script(report)
             print(log)
             continue  # 使用 continue 继续下一个 UID
-        except Exception as e:
-            error_msg = f"UID循环内发生错误,错误UID：{uid}，错误: {e}"
-            print(error_msg)
-            traceback.print_exc()  # 打印详细的堆栈跟踪信息
-            # log_error(error_msg)
-            sys.exit(error_msg)
+        except TimeoutException as e:
+            print(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
+            log_error(f"UID循环内发生错误,错误UID：{uid}，错误: {e}")
+            sys.exit(f"UID循环内发生错误,错误UID：{uid}")
 
 
 except Exception as e:

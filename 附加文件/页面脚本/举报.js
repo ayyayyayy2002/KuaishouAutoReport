@@ -1,7 +1,7 @@
 var callback = arguments[arguments.length - 1];
 const pathParts = window.location.pathname.split('/');
 const userId = pathParts[2]; // 提取路径中的第二部分作为 userId
-const delay = 500
+const delay = 400
 const timeout = 3000
 let pcursor = '';
 
