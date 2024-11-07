@@ -1,7 +1,7 @@
 var callback = arguments[arguments.length - 1];
 const pathParts = window.location.pathname.split('/');
 const userId = pathParts[2]; // 提取路径中的第二部分作为 userId
-const delay = 5000
+const delay = 50
 const timeout = 3000
 let pcursor = '';
 
@@ -168,10 +168,10 @@ function reportPhotos(ids, index, pcursor) {
         // 使用 JSON.stringify() 将对象转化为字符串，以便正确显示
         updateDiagnosticInfo(`举报请求返回值：<strong>${JSON.stringify(decodedResponse, null, 2).replace(/</g, '&lt;').replace(/>/g, '&gt;')}</strong><br>`);
         lastoutput = `${reportCount}, response: ${reportXhr.response}`
-        if (reportCount % 1 === 0) {
+        if (reportCount % 10 === 1) {
             output += `${reportCount}, response: ${reportXhr.response}`;
         }
-        if (reportCount  === 10) {
+        if (reportCount  === 75) {
             callback(output += lastoutput);;
         }
         setTimeout(() => {
