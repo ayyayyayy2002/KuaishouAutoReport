@@ -55,7 +55,7 @@ if not uids:
     exit(0)
 
 options = webdriver.ChromeOptions()
-options.timeouts = { 'script': 120000 }
+options.timeouts = { 'script': 300000 }
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument(f'--user-data-dir={user_data_dir}')  # 设置用户数据目录
 options.binary_location = chrome_binary_path  # 指定 Chrome 浏览器的可执行文件路径
@@ -82,7 +82,8 @@ try:
             remove_completed_uid(uid)
             with open(script_report, "r", encoding="utf-8") as file:
                 report = file.read()
-            log = driver.execute_async_script(report)
+            driver.execute_async_script(report)
+            log = driver.execute_script('return window.output')
             print(log)
             continue  # 使用 continue 继续下一个 UID
         except TimeoutException as e:

@@ -5,7 +5,7 @@ const delay = 500
 const timeout = 3000
 let pcursor = '';
 
-let output = ''
+window.output = ''
 let lastoutput = '默认请求输出'
 
 
@@ -107,7 +107,7 @@ function fetchPhotos(pcursor) {
 
             if (feeds.length === 0) {
                 updateDiagnosticInfo('<strong style="font-size: 2em;color: blue;">本页全部举报完成</strong><br>');
-                callback(output += lastoutput)
+                callback(window.output += lastoutput)
                 return;
             }
 
@@ -169,10 +169,10 @@ function reportPhotos(ids, index, pcursor) {
         updateDiagnosticInfo(`举报请求返回值：<strong>${JSON.stringify(decodedResponse, null, 2).replace(/</g, '&lt;').replace(/>/g, '&gt;')}</strong><br>`);
         lastoutput = `${reportCount}, response: ${reportXhr.response}`
         if (reportCount % 10 === 1) {
-            output += `${reportCount}, response: ${reportXhr.response}`;
+           window.output += `${reportCount}, response: ${reportXhr.response}`;
         }
         if (reportCount  === 750) {
-            callback(output += lastoutput);;
+            callback(window.output += lastoutput);;
         }
         setTimeout(() => {
             reportPhotos(ids, index + 1, pcursor);
@@ -183,7 +183,7 @@ function reportPhotos(ids, index, pcursor) {
         console.error('举报请求发生错误');
     };
     reportXhr.ontimeout = function() {
-        callback(output += lastoutput, '请求超时');
+        callback(window.output += lastoutput, '请求超时');
     };
     reportXhr.send(reportData);
 }
