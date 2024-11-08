@@ -146,7 +146,7 @@ function reportPhotos(ids, index, pcursor) {
             'targetId': photoId,
             'reportType': 1,
             'page': 'DETAIL',
-            'reportItem': 2,
+            'reportItem': 3,
             'reportDetail': '色情游戏及色情视频剪辑内容', // 举报详情
             'reportedUserId': userId,
             'extraPhotoId': ''
