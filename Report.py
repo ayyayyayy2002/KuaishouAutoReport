@@ -82,8 +82,7 @@ try:
             remove_completed_uid(uid)
             with open(script_report, "r", encoding="utf-8") as file:
                 report = file.read()
-            driver.execute_async_script(report)
-            log = driver.execute_script('return window.output')
+            log = driver.execute_async_script(report)
             print(log)
             continue  # 使用 continue 继续下一个 UID
         except TimeoutException as e:
