@@ -96,6 +96,7 @@ options.binary_location = chrome_binary_path  # 指定 Chrome 浏览器的可执
 options.add_argument('--proxy-server="direct://"')
 options.add_argument('--proxy-bypass-list=*')
 options.add_argument("--disable-gpu")
+options.add_argument("--log-level=3")
 options.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁用日志
 
 preferences = {
