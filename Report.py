@@ -6,7 +6,8 @@ from selenium import webdriver
 from datetime import datetime
 import sys
 import os
-
+import os
+os.environ['WDM_LOG_LEVEL'] = '0'
 
 proxies = {'http': None, 'https': None}
 base_dir = os.path.dirname(os.path.abspath(__file__))

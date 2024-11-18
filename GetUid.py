@@ -8,7 +8,8 @@ import requests
 import datetime
 import shutil
 import os
-
+import os
+os.environ['WDM_LOG_LEVEL'] = '0'
 
 proxies = {'http': None, 'https': None}
 output_file = os.path.join(os.getcwd(), '附加文件/运行数据/uid.txt')
